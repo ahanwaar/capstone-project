@@ -6,7 +6,7 @@ import com.worldnavigator.game.maze.Room;
 import com.worldnavigator.game.maze.items.Key;
 import com.worldnavigator.game.maze.walls.Lockable;
 import com.worldnavigator.game.maze.walls.Wall;
-import com.worldnavigator.game.visitors.WallVisitor;
+import com.worldnavigator.game.maze.walls.WallVisitor;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,11 +37,10 @@ public class Door extends Wall implements Lockable {
 
 
     @Override
-    public boolean unLock(Key key) {
+    public void unLock(Key key) {
         if(Objects.equals(this.key, key)){
             this.isLocked=false;
         }
-        return isLocked;
     }
 
     @Override
@@ -65,5 +64,10 @@ public class Door extends Wall implements Lockable {
 
     public List<Room> getConnectedRooms() {
         return connectedRooms;
+    }
+
+    @Override
+    public String toString() {
+        return "door";
     }
 }

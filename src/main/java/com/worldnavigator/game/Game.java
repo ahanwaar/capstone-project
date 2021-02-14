@@ -35,18 +35,16 @@ public class Game {
 
     public void setPlayers(List<Player> players){
         players.forEach(
-                player -> player.getInventory().getGold().addGoldAmount(
+                player -> player.getGold().addGoldAmount(
                         gameConfig.getInitialGoldAmount()
                 )
         );
-        players.forEach(
-                player -> player.setLocation(this.maze.)
-        );
+       //TODO DISTRIBUTE PLAYERS
 
     }
 
 
-    public void setWinner(String winner) {
-        this.winner = winner;
+    public void setWinner(Player winner) {
+        this.winner = winner.getUserName();
     }
 }

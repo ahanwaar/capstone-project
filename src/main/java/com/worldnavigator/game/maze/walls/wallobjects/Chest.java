@@ -2,49 +2,59 @@ package com.worldnavigator.game.maze.walls.wallobjects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.worldnavigator.game.maze.items.Item;
 import com.worldnavigator.game.maze.items.Key;
 import com.worldnavigator.game.maze.walls.Lockable;
-import com.worldnavigator.game.maze.walls.Lootable;
 import com.worldnavigator.game.maze.walls.Wall;
-import com.worldnavigator.game.visitors.WallVisitor;
+import com.worldnavigator.game.player.Inventory;
+import com.worldnavigator.game.maze.walls.WallVisitor;
 
-import java.util.List;
 import java.util.Objects;
 
-public class Chest extends Wall implements Lockable, Lootable {
+public class Chest extends Wall implements Lockable {
+
     private final Key key;
-    private final List<Item> items;
-    private final int gold;
+    private Inventory inventory;
     private boolean isLooted;
     private boolean isLocked;
+    private boolean isOpen;
 
 
     @JsonCreator
     public Chest(
             @JsonProperty("key") Key key,
-            @JsonProperty("items") List<Item> items,
-            @JsonProperty("gold") int gold
+            @JsonProperty("inventory") Inventory inventory
     ) {
         this.key = key;
-        this.items = items;
-        this.gold = gold;
+        this.inventory = inventory;
         this.isLocked =true;
+        this.isOpen = false;
         this.isLooted =false;
     }
 
     @Override
-    public boolean unLock(Key key) {
+    public void unLock(Key key) {
         if (Objects.equals(this.key,key)){
             this.isLocked = false;
         }
-        return isLocked;
     }
 
     @JsonProperty(value="isLocked")
     @Override
     public boolean isLocked() {
         return this.isLocked;
+    }
+
+    @JsonProperty(value="isOpen")
+    @Override
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    @Override
+    public void open() {
+        if(!isLocked){
+            isOpen = true;
+        }
     }
 
     @Override
@@ -57,18 +67,20 @@ public class Chest extends Wall implements Lockable, Lootable {
         return visitor.visitChest(this);
     }
 
-    @Override
     public boolean isLooted() {
         return this.isLooted;
     }
 
-    @Override
-    public void setLooted() {
-        this.isLooted=true;
+    public void setLooted(boolean looted) {
+        this.isLooted=looted;
+    }
+
+    public Inventory loot() {
+        return this.inventory;
     }
 
     @Override
-    public List<Item> loot() {
-        return this.items;
+    public String toString() {
+        return "chest";
     }
 }

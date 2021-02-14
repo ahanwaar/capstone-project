@@ -1,4 +1,4 @@
-package com.worldnavigator.game.visitors;
+package com.worldnavigator.game.maze.walls;
 
 import com.worldnavigator.game.maze.walls.wallobjects.*;
 

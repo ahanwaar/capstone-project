@@ -2,46 +2,43 @@ package com.worldnavigator.game.maze.walls.wallobjects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.worldnavigator.game.maze.items.Item;
-import com.worldnavigator.game.maze.walls.Lootable;
+import com.worldnavigator.game.maze.items.Key;
+import com.worldnavigator.game.maze.walls.HiddenKey;
 import com.worldnavigator.game.maze.walls.Wall;
-import com.worldnavigator.game.visitors.WallVisitor;
+import com.worldnavigator.game.maze.walls.WallVisitor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
-public class Painting extends Wall implements Lootable {
+public class Painting extends Wall implements HiddenKey {
 
-    private final Item item;
-    private boolean isLooted;
+    private Key hiddenKey;
+    private boolean hasHiddenKey;
 
     @JsonCreator
     public Painting(
-            @JsonProperty("item") Item item
+            @JsonProperty("key") Key key
     ) {
-        this.item = item;
-        this.isLooted = false;
-    }
-
-    @Override
-    public boolean isLooted() {
-        return this.isLooted;
-    }
-
-    @Override
-    public void setLooted() {
-        this.isLooted = true;
-    }
-
-    @Override
-    public List<Item> loot() {
-        List<Item> items = new ArrayList<>(1);
-        items.add(item);
-        return items ;
+        this.hiddenKey = key;
+        this.hasHiddenKey = true;
     }
 
     @Override
     public String accept(WallVisitor visitor) {
         return visitor.visitPainting(this);
+    }
+
+    @Override
+    public boolean hasHiddenKey() {
+        return this.hasHiddenKey;
+    }
+
+    @Override
+    public void setCollected(boolean hasHiddenKey) {
+        this.hasHiddenKey = hasHiddenKey;
+    }
+
+    @Override
+    public Optional<Key> getKey() {
+        return Optional.ofNullable(this.hiddenKey);
     }
 }

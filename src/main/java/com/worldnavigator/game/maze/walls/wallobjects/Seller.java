@@ -3,7 +3,7 @@ package com.worldnavigator.game.maze.walls.wallobjects;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.worldnavigator.game.maze.walls.Wall;
-import com.worldnavigator.game.visitors.WallVisitor;
+import com.worldnavigator.game.maze.walls.WallVisitor;
 
 import java.util.Map;
 

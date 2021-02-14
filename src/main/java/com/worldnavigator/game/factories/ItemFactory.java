@@ -4,9 +4,10 @@ import com.worldnavigator.game.Exceptions.NoSuchItemException;
 import com.worldnavigator.game.maze.items.Flashlight;
 import com.worldnavigator.game.maze.items.Item;
 import com.worldnavigator.game.maze.items.Key;
-//TODO
 
-/*public class ItemFactory {
+
+
+public class ItemFactory {
 
     private static final ItemFactory itemFactory = new ItemFactory();
 
@@ -27,4 +28,3 @@ import com.worldnavigator.game.maze.items.Key;
         return itemFactory;
     }
 }
-*/

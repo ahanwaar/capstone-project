@@ -2,6 +2,7 @@ package com.worldnavigator.game.maze;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.worldnavigator.game.player.Inventory;
 import com.worldnavigator.game.player.Player;
 import com.worldnavigator.game.maze.walls.Wall;
 
@@ -13,7 +14,8 @@ public class Room {
     private final boolean hasLights;
     private boolean isLit;
     private final Map<Direction, Wall> walls;
-    private final Deque<Player> players;
+    private Deque<Player> players;
+    private Inventory inventory;
 
     @JsonCreator
     public Room(
@@ -73,4 +75,13 @@ public class Room {
     public void kickPlayer(Player player){
         this.players.remove(player);
     }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
 }

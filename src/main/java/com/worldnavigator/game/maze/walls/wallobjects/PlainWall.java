@@ -1,8 +1,7 @@
 package com.worldnavigator.game.maze.walls.wallobjects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.worldnavigator.game.maze.walls.Wall;
-import com.worldnavigator.game.visitors.WallVisitor;
+import com.worldnavigator.game.maze.walls.WallVisitor;
 
 public class PlainWall extends Wall {
 

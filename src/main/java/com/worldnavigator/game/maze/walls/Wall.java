@@ -3,7 +3,6 @@ package com.worldnavigator.game.maze.walls;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.worldnavigator.game.maze.walls.wallobjects.*;
-import com.worldnavigator.game.visitors.WallVisitor;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;

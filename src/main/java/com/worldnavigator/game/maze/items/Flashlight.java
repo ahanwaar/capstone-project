@@ -1,20 +1,14 @@
 package com.worldnavigator.game.maze.items;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.worldnavigator.game.Gold;
-import com.worldnavigator.game.visitors.ItemVisitor;
 
 public class Flashlight implements Item {
-
-    private final Gold price;
+    private int price;
     private boolean isOn;
 
     @JsonCreator
-    public Flashlight(
-            @JsonProperty("price") int price
-    ){
-        this.price = new Gold(price);
+    public Flashlight(){
+
         this.isOn = false;
     }
 
@@ -24,8 +18,8 @@ public class Flashlight implements Item {
     }
 
     @Override
-    public Gold getPrice() {
-        return price;
+    public String getName() {
+        return "flashlight";
     }
 
     @Override
@@ -34,7 +28,16 @@ public class Flashlight implements Item {
     }
 
     @Override
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    @Override
     public String toString() {
-        return "Flashlight";
+        return "flashlight";
     }
 }

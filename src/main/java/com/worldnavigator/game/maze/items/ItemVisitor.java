@@ -1,4 +1,4 @@
-package com.worldnavigator.game.visitors;
+package com.worldnavigator.game.maze.items;
 
 import com.worldnavigator.game.maze.items.Flashlight;
 import com.worldnavigator.game.maze.items.Key;

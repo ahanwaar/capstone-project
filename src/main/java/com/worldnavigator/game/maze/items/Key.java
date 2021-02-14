@@ -2,34 +2,40 @@ package com.worldnavigator.game.maze.items;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.worldnavigator.game.Gold;
-import com.worldnavigator.game.visitors.ItemVisitor;
+import lombok.Getter;
 
 import java.util.Objects;
 
-public class Key implements Item{
-
+@Getter
+public class Key implements Item {
+    private final String NAME = getColor() +"Key";
     private final String color;
-    private final Gold price;
+    private  int price;
 
     @JsonCreator
     public Key(
-            @JsonProperty("color") String color,
-            @JsonProperty("price") int price
+            @JsonProperty("color") String color
             ) {
         this.color = Objects.requireNonNull(color);
-        this.price = new Gold(price);
     }
 
-
     @Override
-    public Gold getPrice() {
-        return this.price;
+    public String getName() {
+        return NAME;
     }
 
     @Override
     public String accept(ItemVisitor itemVisitor) {
         return itemVisitor.visitKey(this);
+    }
+
+    @Override
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     @Override
