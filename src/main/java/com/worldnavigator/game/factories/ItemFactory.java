@@ -1,12 +1,12 @@
 package com.worldnavigator.game.factories;
 
 import com.worldnavigator.game.Exceptions.NoSuchItemException;
-import com.worldnavigator.game.Exceptions.NullItemException;
 import com.worldnavigator.game.maze.items.Flashlight;
 import com.worldnavigator.game.maze.items.Item;
 import com.worldnavigator.game.maze.items.Key;
+//TODO
 
-public class ItemFactory {
+/*public class ItemFactory {
 
     private static final ItemFactory itemFactory = new ItemFactory();
 
@@ -27,3 +27,4 @@ public class ItemFactory {
         return itemFactory;
     }
 }
+*/

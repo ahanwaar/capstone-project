@@ -2,33 +2,31 @@ package com.worldnavigator.game.maze.walls.wallobjects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.worldnavigator.game.maze.Room;
 import com.worldnavigator.game.maze.items.Key;
 import com.worldnavigator.game.maze.walls.Lockable;
 import com.worldnavigator.game.maze.walls.Wall;
 import com.worldnavigator.game.visitors.WallVisitor;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Door extends Wall implements Lockable {
-    private final int Room;//edit between 2 rooms
+    private final List<Room> connectedRooms;
     private final Key key;
     private boolean isLocked;
     private boolean isOpen;
+    //private final boolean isMagical door?; //TODO
 
     @JsonCreator
     private Door(
-            @JsonProperty("room") int room,
-            @JsonProperty("lock") Key key,
-            @JsonProperty(value="isOpen") boolean isOpen,//we can edit it later removing value
+            @JsonProperty("connectedRooms") List<Room> connectedRooms,
+            @JsonProperty("key") Key key,
             @JsonProperty(value="isLocked") boolean isLocked
-
     ) {
-        Room = room;
+        this.connectedRooms = connectedRooms;
         this.key = key;
-        if(isOpen && isLocked)
-            throw new IllegalArgumentException("The lock can't be open and locked at the same time.");
-
-        this.isOpen = isOpen;
+        this.isOpen = false;
         this.isLocked = isLocked;
     }
 
@@ -63,5 +61,9 @@ public class Door extends Wall implements Lockable {
     @Override
     public Key getKey() {
         return this.key;
+    }
+
+    public List<Room> getConnectedRooms() {
+        return connectedRooms;
     }
 }

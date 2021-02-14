@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import com.worldnavigator.game.Exceptions.NoSuchItemException;
-import com.worldnavigator.game.Exceptions.NullItemException;
 import com.worldnavigator.game.factories.ItemFactory;
 import com.worldnavigator.game.maze.items.Item;
 
