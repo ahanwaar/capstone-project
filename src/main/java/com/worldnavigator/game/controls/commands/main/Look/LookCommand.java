@@ -1,11 +1,11 @@
 package com.worldnavigator.game.controls.commands.main.Look;
 
 import com.worldnavigator.game.controls.Command;
-import com.worldnavigator.game.player.Player;
 import com.worldnavigator.game.maze.Room;
 import com.worldnavigator.game.maze.walls.Wall;
+import com.worldnavigator.game.player.Player;
 
-public class Look implements Command {
+public class LookCommand implements Command {
   @Override
   public String name() {
     return "look";

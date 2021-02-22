@@ -2,16 +2,11 @@ package com.worldnavigator.game.player;
 
 import com.worldnavigator.game.Game;
 import com.worldnavigator.game.Gold;
-import com.worldnavigator.game.maze.items.Item;
+import com.worldnavigator.game.maze.Inventory;
 import com.worldnavigator.game.maze.Room;
-import com.worldnavigator.game.maze.walls.Wall;
-import com.worldnavigator.game.utils.Pair;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
-
+import com.worldnavigator.game.maze.wall.Wall;
+import java.util.Objects;
+import lombok.*;
 
 @Getter
 @Setter
@@ -23,15 +18,11 @@ public class Player {
   private PlayerLocation location;
   private Inventory inventory;
   private PlayerStatus playerStatus;
-  private  Game game;
-  private Gold gold;
-
-
+  private Game game;
 
   public Player(String userName) {
     this.userName = userName;
   }
-
 
   public Room getCurrentRoom() {
     return this.game.getMaze().getRoom(getLocation().getRoomIndex());
@@ -41,19 +32,25 @@ public class Player {
     return getCurrentRoom().getWall(getLocation().getDirection());
   }
 
-  public void addToInventory(List<Pair<Item, Integer>> items) {
-
-    items.forEach(item -> inventory.addOrReplaceItem(item.getKey(), item.getValue()));
+  public int getTotalGoldValue(){
+    return getInventory().convertToGoldAmount();
   }
 
-  public int convertInventoryToGoldAmount() {
-    int totalGold = 0;
-    List<Pair<Item, Integer>> items = inventory.getInventory();
-    for (Pair<Item, Integer> item : items) {
-      totalGold += item.getKey().getPrice() * item.getValue();
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-    return totalGold;
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Player player = (Player) o;
+    return userName.equals(player.userName);
   }
 
-
+  @Override
+  public int hashCode() {
+    return Objects.hash(userName);
+  }
 }

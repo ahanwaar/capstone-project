@@ -6,39 +6,38 @@ import com.worldnavigator.game.maze.items.Key;
 import com.worldnavigator.game.maze.walls.HiddenKey;
 import com.worldnavigator.game.maze.walls.Wall;
 import com.worldnavigator.game.maze.walls.WallVisitor;
-
+import java.util.Objects;
 import java.util.Optional;
 
-public class Painting extends Wall implements HiddenKey {
+public class Painting implements HiddenKey {
 
-    private Key hiddenKey;
-    private boolean hasHiddenKey;
+  private final Key hiddenKey;
+  private boolean hasHiddenKey;
 
-    @JsonCreator
-    public Painting(
-            @JsonProperty("key") Key key
-    ) {
-        this.hiddenKey = key;
-        this.hasHiddenKey = true;
-    }
+  @JsonCreator
+  public Painting(@JsonProperty("key") Key key) {
 
-    @Override
-    public String accept(WallVisitor visitor) {
-        return visitor.visitPainting(this);
-    }
+    this.hiddenKey = Objects.requireNonNull(key);
+    this.hasHiddenKey = true;
+  }
 
-    @Override
-    public boolean hasHiddenKey() {
-        return this.hasHiddenKey;
-    }
+  @Override
+  public String accept(WallVisitor visitor) {
+    return visitor.visitPainting(this);
+  }
 
-    @Override
-    public void setCollected(boolean hasHiddenKey) {
-        this.hasHiddenKey = hasHiddenKey;
-    }
+  @Override
+  public boolean hasHiddenKey() {
+    return this.hasHiddenKey;
+  }
 
-    @Override
-    public Optional<Key> getKey() {
-        return Optional.ofNullable(this.hiddenKey);
-    }
+  @Override
+  public void setCollected(boolean hasHiddenKey) {
+    this.hasHiddenKey = hasHiddenKey;
+  }
+
+  @Override
+  public Optional<Key> getKey() {
+    return Optional.ofNullable(this.hiddenKey);
+  }
 }

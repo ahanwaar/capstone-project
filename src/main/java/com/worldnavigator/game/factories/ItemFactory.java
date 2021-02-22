@@ -5,26 +5,25 @@ import com.worldnavigator.game.maze.items.Flashlight;
 import com.worldnavigator.game.maze.items.Item;
 import com.worldnavigator.game.maze.items.Key;
 
-
-
 public class ItemFactory {
 
-    private static final ItemFactory itemFactory = new ItemFactory();
+  private static final ItemFactory itemFactory = new ItemFactory();
 
-    private ItemFactory(){}
+  private ItemFactory() {
+  }
 
-    public Item getItem(String itemType) throws NoSuchItemException {
-        itemType=itemType.trim().toLowerCase();
+  public static ItemFactory getFactory() {
+    return itemFactory;
+  }
 
-        if(itemType.equals("flashlight")) {
-            return new Flashlight();
-        } else if(itemType.endsWith("key")) {
-            return new Key(itemType.split("\\s+")[0]);
-        }
-        throw new NoSuchItemException("There is no such item with that name!");
+  public Item getItem(String itemType) throws NoSuchItemException {
+    itemType = itemType.trim().toLowerCase();
+
+    if (itemType.equals("flashlight")) {
+      return new Flashlight();
+    } else if (itemType.endsWith("key")) {
+      return new Key(itemType.split("\\s+")[0]);
     }
-
-    public static ItemFactory getFactory() {
-        return itemFactory;
-    }
+    throw new NoSuchItemException("There is no such item with that name!");
+  }
 }

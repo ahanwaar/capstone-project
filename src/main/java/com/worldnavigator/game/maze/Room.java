@@ -1,87 +1,78 @@
 package com.worldnavigator.game.maze;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.worldnavigator.game.player.Inventory;
-import com.worldnavigator.game.player.Player;
-import com.worldnavigator.game.maze.walls.Wall;
 
-import java.util.*;
+import com.worldnavigator.game.maze.wall.Wall;
+import com.worldnavigator.game.player.Player;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Map;
+import java.util.Objects;
 
 public class Room {
 
-    private final int index;
-    private final boolean hasLights;
-    private boolean isLit;
-    private final Map<Direction, Wall> walls;
-    private Deque<Player> players;
-    private Inventory inventory;
+  private final int index;
+  private final boolean hasLights;
+  private final Map<Direction, Wall> walls;
+  private final Deque<Player> players;
+  private boolean isLit;
 
-    @JsonCreator
-    public Room(
-            @JsonProperty("index") int index,
-            @JsonProperty("hasLights") boolean hasLights,
-            @JsonProperty("isLit") boolean isLit,
-            @JsonProperty("walls") Map<Direction, Wall> walls
-    ) {
-        this.index = index;
-        this.hasLights = hasLights;
-        this.isLit = isLit;
-        this.walls = Objects.requireNonNull(walls);
-        this.players = new ArrayDeque<>();
-    }
 
-    public int getIndex() {
-        return index;
-    }
+  public Room(int index, boolean hasLights, Map<Direction, Wall> walls) {
+    this.index = index;
+    this.hasLights = hasLights;
+    this.isLit = false;
+    this.walls = Objects.requireNonNull(walls);
+    this.players = new ArrayDeque<>();
+  }
 
-    public Map<Direction, Wall> getWalls() {
-        return walls;
-    }
+  public int getIndex() {
+    return index;
+  }
 
-    public Wall getWall(Direction direction){
-        return this.walls.get(direction);
-    }
+  public Map<Direction, Wall> getWalls() {
+    return walls;
+  }
 
-    public boolean switchLights() {
-        if(hasLights){
-            this.isLit = !this.isLit;
-        }
-        return this.isLit;
-    }
+  public Wall getWall(Direction direction) {
+    return this.walls.get(direction);
+  }
 
-    public boolean isLit(){
-        return this.isLit;
-    }
+  public void switchLights() {
+    this.isLit = !this.isLit;
+  }
 
-    public Deque<Player> getPlayers() {
-        return players;
-    }
+  public boolean hasLights() {
+    return hasLights;
+  }
 
-    public boolean isCrowded(){
-        return this.players.size() == 2;
-    }
+  public boolean isLit() {
+    return this.isLit;
+  }
 
-    public boolean isEmpty(){
-        return this.players.isEmpty();
-    }
+  public Deque<Player> getPlayers() {
+    return players;
+  }
 
-    public void addPlayer(Player player){
-        if(!isCrowded()){
-            this.players.addLast(player);
-        }
-    }
+  public boolean isCrowded() {
+    return this.players.size() == 2;
+  }
 
-    public void kickPlayer(Player player){
-        this.players.remove(player);
-    }
+  public boolean isEmpty() {
+    return this.players.size() == 0;
+  }
 
-    public Inventory getInventory() {
-        return inventory;
+  public void addPlayer(Player player) {
+    if (!isCrowded()) {
+      this.players.addLast(player);
     }
+  }
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
+  public void removePlayer(Player player) {
+    if(players.getFirst().equals(player)){
+      players.removeFirst();
+    }else if(players.getLast().equals(player)){
+      players.removeLast();
     }
+  }
 
 }

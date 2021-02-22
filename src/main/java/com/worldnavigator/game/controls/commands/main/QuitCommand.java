@@ -1,4 +1,5 @@
 package com.worldnavigator.game.controls.commands.main;
 
-public class SwitchLights {
+public class QuitCommand {
+
 }

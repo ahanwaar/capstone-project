@@ -6,8 +6,8 @@ public class Pair<K, V> {
   private final V secondElement;
 
   public Pair(K firstElement, V secondElement) {
-    checkIfNull("FirstElement",firstElement);
-    checkIfNull("SecondElement",secondElement);
+    checkIfNull("FirstElement", firstElement);
+    checkIfNull("SecondElement", secondElement);
     this.firstElement = firstElement;
     this.secondElement = secondElement;
   }

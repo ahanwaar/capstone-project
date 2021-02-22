@@ -1,8 +1,8 @@
 package com.worldnavigator.game.Exceptions;
 
-public class GoldAmountException extends Exception{
+public class GoldAmountException extends Exception {
 
-    public GoldAmountException(String e){
-        super(e);
-    }
+  public GoldAmountException(String e) {
+    super(e);
+  }
 }

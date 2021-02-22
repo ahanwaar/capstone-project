@@ -4,11 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.worldnavigator.game.player.Player;
 
 public interface Command {
-    @JsonProperty("name")
-    public String name();
+  //TODO check validity
 
-    public String execute(Player player);
+  String execute(Player player);
 
-    @JsonProperty("description")
-    public String getDescription();
+  @JsonProperty("description")
+  String getDescription();
+
+  @JsonProperty("name")
+  String name();
+
+
 }

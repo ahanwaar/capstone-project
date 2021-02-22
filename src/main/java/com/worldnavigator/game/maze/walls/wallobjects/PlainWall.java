@@ -5,8 +5,8 @@ import com.worldnavigator.game.maze.walls.WallVisitor;
 
 public class PlainWall extends Wall {
 
-    @Override
-    public String accept(WallVisitor visitor) {
-        return visitor.visitPlainWall(this);
-    }
+  @Override
+  public String accept(WallVisitor visitor) {
+    return visitor.visitPlainWall(this);
+  }
 }

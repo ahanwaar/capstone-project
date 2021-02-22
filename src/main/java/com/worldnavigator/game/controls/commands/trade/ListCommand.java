@@ -1,4 +1,5 @@
 package com.worldnavigator.game.controls.commands.trade;
 
-public class Buy {
+public class ListCommand {
+
 }
