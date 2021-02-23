@@ -1,7 +1,5 @@
 package com.worldnavigator.game.maze.items;
 
-import com.worldnavigator.game.exceptions.NoSuchItemException;
-
 public enum Key implements Item {
   COPPER {
     @Override

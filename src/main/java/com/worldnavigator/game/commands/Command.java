@@ -7,11 +7,9 @@ import com.worldnavigator.game.player.Player;
 public interface Command {
   //TODO check validity
 
-  String execute(Player player) throws NullItemException, NoSuchItemException;
+  String execute(Player player);
 
   String getDescription();
 
   String name();
-
-
 }

@@ -3,6 +3,7 @@ package com.worldnavigator.game.commands.navigation;
 import com.worldnavigator.game.commands.Command;
 import com.worldnavigator.game.conflict.ConflictHandler;
 import com.worldnavigator.game.conflict.ConflictStatus;
+import com.worldnavigator.game.conflict.RockPaperScissorsFight;
 import com.worldnavigator.game.maze.Direction;
 import com.worldnavigator.game.maze.Room;
 import com.worldnavigator.game.maze.wall.Wall;
@@ -13,7 +14,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MoveCommand implements Command {
+public class MoveForwardCommand implements Command {
 
   Player player;
 
@@ -62,13 +63,19 @@ public class MoveCommand implements Command {
   }
 
   public String startConflict(ConflictHandler conflictHandler){
-    if (conflictHandler.getPrimaryFightStatus() == ConflictStatus.TIE) {
-      return "You got a tie, you have to play \"rock paper scissor\" game.";
-    }
-    else if(conflictHandler.getPrimaryFightStatus() == ConflictStatus.FIRST_WON){
-        return "You lost; your opponent inventory level is higher than yours.";
-    }else player.setPlayerStatus();
 
+    if (conflictHandler.getPrimaryFightStatus() == ConflictStatus.WON) {
+      return "You won by your inventory gold value, you occupied the room.";
+    }
+
+    if (conflictHandler.getPrimaryFightStatus() == ConflictStatus.LOST) {
+      return "You lost; your opponent inventory level is higher than yours.";
+    }
+
+    RockPaperScissorsFight fight = new RockPaperScissorsFight(player.getCurrentRoom().getPlayers());
+    player.getGame().addFight(fight);
+    return "The room is occupied by another player, "
+        + "you need to play rock paper scissor game with him!";
   }
 
 
@@ -79,6 +86,6 @@ public class MoveCommand implements Command {
 
   @Override
   public String getDescription() {
-    return null;
+    return "use this command to move forward through open doors.";
   }
 }

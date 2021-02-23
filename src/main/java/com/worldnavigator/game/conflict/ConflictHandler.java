@@ -11,6 +11,8 @@ public class ConflictHandler {
 
   public ConflictHandler(Deque<Player> opponents){
     this.opponents = Objects.requireNonNull(opponents);
+    opponents.getFirst().setPlayerStatus(PlayerStatus.FIGHTING);
+    opponents.getLast().setPlayerStatus(PlayerStatus.FIGHTING);
   }
 
   public ConflictStatus getPrimaryFightStatus(){
@@ -19,24 +21,22 @@ public class ConflictHandler {
 
     if(p1.getTotalGoldValue() > p2.getTotalGoldValue()){
       setResults(p1, p2);
-      conflictState = ConflictStatus.FIRST_WON;
+      conflictState = ConflictStatus.LOST;
     }else if (p1.getTotalGoldValue() < p2.getTotalGoldValue()){
      setResults(p2,p1);
-      conflictState = ConflictStatus.LAST_WON;
+      conflictState = ConflictStatus.WON;
     }else
-      p1.setPlayerStatus(PlayerStatus.FIGHTING);
-      p2.setPlayerStatus(PlayerStatus.FIGHTING);
     conflictState = ConflictStatus.TIE;
 
     return conflictState;
   }
 
   public ConflictStatus getSecondaryFightStatus(Player player, Hand hand){
-    RockPaperScissorsGame game = new RockPaperScissorsGame(opponents);
+    RockPaperScissorsFight game = new RockPaperScissorsFight(opponents);
     if(conflictState != ConflictStatus.TIE){
       return conflictState;
     }
-    if(game.play(player,hand)){
+    if(game.start(player,hand)){
       return game.getStatus(player);
     }else game.reset();
 
@@ -44,18 +44,11 @@ public class ConflictHandler {
   }
 
   public void setResults(Player winner, Player loser){
-    winner.setPlayerStatus(PlayerStatus.WON);
+    winner.setPlayerStatus(PlayerStatus.WALKING);
     loser.setPlayerStatus(PlayerStatus.LOST);
     winner.getCurrentRoom().removePlayer(loser);
     winner.getGame().removePlayer(loser);
     winner.getGame().distributeGold(loser.getTotalGoldValue());
   }
-
-  public void setLastPlayerWon(){
-    opponents.removeFirst();
-    opponents.getFirst().setPlayerStatus(PlayerStatus.LOST);
-    opponents.getLast().setPlayerStatus(PlayerStatus.WON);
-  }
-
 
 }

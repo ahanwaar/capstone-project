@@ -1,23 +1,29 @@
 package com.worldnavigator.game.conflict;
 
 import com.worldnavigator.game.player.Player;
+import com.worldnavigator.game.player.PlayerStatus;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
-public class RockPaperScissorsGame {
+public class RockPaperScissorsFight {
 
   private final Map<Player, Hand> hands;
 
-  public RockPaperScissorsGame(
-      Deque<Player> players) {
+  public RockPaperScissorsFight(
+      Deque<Player> players)
+  {
     hands = new HashMap<>();
     this.hands.put(players.getFirst(),Hand.NULL);
     this.hands.put(players.getLast(),Hand.NULL);
+    players.getFirst().setPlayerStatus(PlayerStatus.FIGHTING);
+    players.getLast().setPlayerStatus(PlayerStatus.FIGHTING);
+    players.getLast().getGame().addFight(this);
   }
 
-  public boolean play(Player player, Hand hand){
+  public boolean start(Player player, Hand hand){
     if(hands.get(player) == Hand.NULL) {
       hands.put(player, hand);
       return true;
@@ -26,21 +32,24 @@ public class RockPaperScissorsGame {
   }
 
   public ConflictStatus getStatus(Player player) {
-    Player opponent = player.getCurrentRoom().getPlayers().getFirst();
+    Objects.requireNonNull(player);
 
+    Player opponent = player.getCurrentRoom().getPlayers().getFirst();
     Hand playerHand = hands.get(player);
     Hand opponentHand = hands.get(opponent);
+
     if(playerHand == opponentHand)
       return ConflictStatus.TIE;
+
     if(playerHand.beats(opponentHand))
-      return ConflictStatus.LAST_WON;
-    else return ConflictStatus.FIRST_WON;
+      return ConflictStatus.WON;
+
+    else return ConflictStatus.LOST;
   }
 
   public void reset() {
     hands.replaceAll((player, hand) -> Hand.NULL);
   }
-
 
 
   public Set<Player> getPlayers() {
