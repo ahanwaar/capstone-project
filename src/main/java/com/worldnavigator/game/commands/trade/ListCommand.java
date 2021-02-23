@@ -1,5 +1,5 @@
 package com.worldnavigator.game.commands.trade;
-
+//TODO
 import com.worldnavigator.game.commands.TradeCommand;
 import com.worldnavigator.game.player.Player;
 
