@@ -1,5 +1,7 @@
 package com.worldnavigator.game.maze.wall.wallobjects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.worldnavigator.game.maze.Room;
 import com.worldnavigator.game.maze.wall.Lock;
 import com.worldnavigator.game.maze.wall.Lockable;
@@ -15,34 +17,38 @@ public class Door extends Wall implements Lockable {
 
   private final List<Room> connectedRooms;
   private final Lock lock;
-  private boolean isOpen;
+  private boolean open;
 
-  public Door(List<Room> connectedRooms, Lock lock) {
+  @JsonCreator
+  public Door(
+      @JsonProperty("connectedRooms") List<Room> connectedRooms, @JsonProperty("lock") Lock lock) {
     this.connectedRooms = connectedRooms;
     this.lock = lock;
-    this.isOpen = false;
+    this.open = false;
   }
 
-  public boolean open(){
-    if(!lock.isLocked()){
-      isOpen = true;
+  public boolean open() {
+    if (!lock.isLocked()) {
+      open = true;
     }
-    return isOpen;
+    return open;
   }
 
+  @JsonProperty(value = "open")
   public boolean isOpen() {
-    return isOpen;
+    return open;
   }
 
-  public boolean isMagicalDoor(){
+  public boolean isMagicalDoor() {
     return this.connectedRooms.size() < 2;
   }
 
-  public Room getNextRoom(Room room){
+  public Room getNextRoom(Room room) {
     int index = connectedRooms.indexOf(room);
-    if(index == 1){
+    if (index == 1) {
       return connectedRooms.get(0);
-    }return connectedRooms.get(1);
+    }
+    return connectedRooms.get(1);
   }
 
   @Override

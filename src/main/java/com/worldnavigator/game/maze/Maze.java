@@ -9,7 +9,9 @@ public class Maze {
   private final List<Room> rooms;
 
   @JsonCreator
-  public Maze(@JsonProperty("rooms") List<Room> rooms) {
+  public Maze(
+      @JsonProperty("rooms") List<Room> rooms
+  ) {
     this.rooms = rooms;
   }
 

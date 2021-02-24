@@ -12,6 +12,7 @@ public class RockPaperScissorsFight {
 
   private final Map<Player, Hand> hands;
 
+
   public RockPaperScissorsFight(
       Deque<Player> players)
   {
@@ -55,5 +56,6 @@ public class RockPaperScissorsFight {
   public Set<Player> getPlayers() {
     return hands.keySet();
   }
+
 }
 

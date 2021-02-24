@@ -1,25 +1,26 @@
 package com.worldnavigator.game.maze.wall.wallobjects;
 
-
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.worldnavigator.game.PriceList;
 import com.worldnavigator.game.maze.wall.Wall;
 import com.worldnavigator.game.maze.wall.WallVisitor;
-import java.util.Map;
 
 public class Seller extends Wall {
 
-  private final Map<String, Integer> pricesList;
+  private final PriceList pricesList;
 
-
-  public Seller( Map<String, Integer> pricesList) {
+  @JsonCreator
+  public Seller(@JsonProperty("prices") PriceList pricesList) {
     this.pricesList = pricesList;
   }
 
-  public Map<String, Integer> getPricesList() {
+  public PriceList getPricesList() {
     return pricesList;
   }
 
   public Integer getItemPrice(String itemName) {
-    return pricesList.get(itemName);
+    return pricesList.getItemPrice(itemName);
   }
 
   @Override

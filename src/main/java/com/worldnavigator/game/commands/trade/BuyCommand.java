@@ -1,37 +1,37 @@
 package com.worldnavigator.game.commands.trade;
 
-import com.worldnavigator.game.commands.TradeCommand;
+import com.worldnavigator.game.commands.Command;
 import com.worldnavigator.game.exceptions.NoSuchItemException;
 import com.worldnavigator.game.maze.items.Item;
 import com.worldnavigator.game.maze.items.ItemFactory;
 import com.worldnavigator.game.maze.wall.wallobjects.Seller;
 import com.worldnavigator.game.player.Player;
+import org.springframework.stereotype.Component;
 
-public class BuyCommand implements TradeCommand {
+@Component
+public class BuyCommand implements Command {
 
   @Override
-  public String execute(Player player, String itemName) {
+  public String execute(Player player, String... args) {
+
+    String itemName = String.join(" ", args);
+
     Seller seller = (Seller) player.getCurrentWall();
-    if (seller == null) {
-      throw new IllegalArgumentException("You are not facing a seller!");
+    int itemPrice = seller.getItemPrice(itemName);
+
+    if (player.getInventory().containsItem(itemName)) {
+      return "You don't need this item," + " It's already in your inventory!";
     }
 
-    if (seller.getPricesList().containsKey(itemName)) {
-      int itemPrice = seller.getItemPrice(itemName);
-
-      if (player.getInventory().containsItem(itemName))
-        return "You don't need this item," + " It's already in your inventory!";
-
-      if (player.getInventory().getGold().getAmount() >= itemPrice) {
-        player.getInventory().getGold().withdrawGoldAmount(itemPrice);
-        try {
-          addPurchasedItem(player, itemName);
-        } catch (NoSuchItemException e) {
-          e.printStackTrace();
-        }
-      } else return String.format("Your gold amount isn't enough to buy <%s> !", itemName);
+    if (player.getInventory().getGold().getAmount() >= itemPrice) {
+      player.getInventory().getGold().withdrawGoldAmount(itemPrice);
+      try {
+        return addPurchasedItem(player, itemName);
+      } catch (NoSuchItemException e) {
+        e.printStackTrace();
+      }
     }
-    return "The seller doesn't have the required item!";
+    return String.format("Your gold amount isn't enough to buy <%s> !", itemName);
   }
 
   private String addPurchasedItem(Player player, String itemName) throws NoSuchItemException {
@@ -49,4 +49,19 @@ public class BuyCommand implements TradeCommand {
   public String name() {
     return "buy";
   }
+
+  @Override
+  public boolean checkAvailability(Player player) {
+    return false;
+  }
+
+  @Override
+  public String args() {
+    return "<item>";
+  }
+
+  public boolean validate(Player player, String... args) {
+    return args.length >= 1;
+  }
+
 }

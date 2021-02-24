@@ -1,33 +1,40 @@
 package com.worldnavigator.game.commands.main;
 
 import com.worldnavigator.game.commands.Command;
-import com.worldnavigator.game.exceptions.NoSuchItemException;
-import com.worldnavigator.game.exceptions.NullItemException;
 import com.worldnavigator.game.maze.Room;
 import com.worldnavigator.game.player.Player;
+import com.worldnavigator.game.player.PlayerStatus;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SwitchLightsCommand implements Command {
 
-
   @Override
-  public String execute(Player player) throws NullItemException, NoSuchItemException {
+  public String execute(Player player, String... args) {
     Room room = player.getCurrentRoom();
-    if(room.hasLights()){
+    if (room.hasLights()) {
       room.switchLights();
-      if(room.isLit()){
+      if (room.isLit()) {
         return "The room is lit now!";
-      }else return "The room is dark now!";
+      } else {
+        return "The room is dark now!";
+      }
     }
     return "The room doesn't have lights!";
   }
 
   @Override
   public String getDescription() {
-    return null;
+    return "use to switch the room lights";
   }
 
   @Override
   public String name() {
-    return null;
+    return "switch-lights";
+  }
+
+  @Override
+  public boolean checkAvailability(Player player) {
+    return player.getPlayerStatus() == PlayerStatus.WALKING;
   }
 }

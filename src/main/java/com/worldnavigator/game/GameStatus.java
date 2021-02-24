@@ -1,8 +1,8 @@
 package com.worldnavigator.game;
 
-public enum GameState {
+public enum GameStatus {
 
   LOADING,
   STARTED,
-  FINISHED;
+  FINISHED
 }

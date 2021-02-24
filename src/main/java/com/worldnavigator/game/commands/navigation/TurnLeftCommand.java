@@ -1,14 +1,16 @@
 package com.worldnavigator.game.commands.navigation;
 
 import com.worldnavigator.game.commands.Command;
-import com.worldnavigator.game.maze.Direction;
 import com.worldnavigator.game.player.Player;
+import com.worldnavigator.game.player.PlayerStatus;
 import java.util.Objects;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TurnLeftCommand implements Command {
 
   @Override
-  public String execute(Player player) {
+  public String execute(Player player, String... args) {
     Objects.requireNonNull(player);
     player.getLocation().setDirection(
         player
@@ -26,5 +28,11 @@ public class TurnLeftCommand implements Command {
   @Override
   public String name() {
     return "turnLeft";
+  }
+
+
+  @Override
+  public boolean checkAvailability(Player player) {
+    return player.getPlayerStatus() == PlayerStatus.WALKING;
   }
 }

@@ -3,16 +3,14 @@ package com.worldnavigator.game.commands.main;
 import com.worldnavigator.game.commands.Command;
 import com.worldnavigator.game.maze.wall.wallobjects.Door;
 import com.worldnavigator.game.player.Player;
+import com.worldnavigator.game.player.PlayerStatus;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OpenDoorCommand implements Command {
 
   @Override
-  public String name() {
-    return "open";
-  }
-
-  @Override
-  public String execute(Player player) {
+  public String execute(Player player, String... args) {
     Door door = (Door) player.getCurrentRoom().getWall(player.getLocation().getDirection());
 
     if (door.getLock().isLocked()) {
@@ -31,5 +29,16 @@ public class OpenDoorCommand implements Command {
   @Override
   public String getDescription() {
     return "use this command to open unlocked doors";
+  }
+
+  @Override
+  public String name() {
+    return "open";
+  }
+
+  @Override
+  public boolean checkAvailability(Player player) {
+    return player.getCurrentWall() instanceof Door
+        && player.getPlayerStatus() == PlayerStatus.WALKING;
   }
 }

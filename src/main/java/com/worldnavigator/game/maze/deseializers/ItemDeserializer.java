@@ -1,4 +1,4 @@
-package com.worldnavigator.game.deseializers;
+package com.worldnavigator.game.maze.deseializers;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

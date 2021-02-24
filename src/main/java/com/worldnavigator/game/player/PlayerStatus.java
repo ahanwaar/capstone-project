@@ -4,5 +4,6 @@ public enum PlayerStatus {
   WALKING,
   FIGHTING,
   WON,
-  LOST;
+  LOST,
+  TRADE_MODE
 }

@@ -1,14 +1,16 @@
 package com.worldnavigator.game.maze.items;
 
-import com.worldnavigator.game.PriceList;
-import com.worldnavigator.game.exceptions.NoSuchItemException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
 
 
 public class Flashlight implements Item {
 
+  @JsonIgnore
   private boolean on;
 
+  @JsonCreator
   public Flashlight() {
     this.on = false;
   }

@@ -1,5 +1,7 @@
 package com.worldnavigator.game.maze.wall.wallobjects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.worldnavigator.game.maze.Inventory;
 import com.worldnavigator.game.maze.wall.Lock;
 import com.worldnavigator.game.maze.wall.Lockable;
@@ -17,7 +19,10 @@ public class Chest extends Wall implements Lockable {
   private Lock lock;
   private boolean looted;
 
-  public Chest(Lock lock, Inventory inventory) {
+  @JsonCreator
+  public Chest(
+      @JsonProperty("lock") Lock lock,
+      @JsonProperty("inventory") Inventory inventory) {
     this.lock = Objects.requireNonNull(lock);
     this.inventory = Objects.requireNonNull(inventory);
     this.looted = false;

@@ -1,16 +1,17 @@
 package com.worldnavigator.game.maze.items;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.worldnavigator.game.PriceList;
-import com.worldnavigator.game.exceptions.NoSuchItemException;
 
+@JsonDeserialize(using = ItemDeserializer.class)
 public interface Item {
 
   String getName();
 
   String accept(ItemVisitor itemVisitor);
 
-  default int getPrice() throws NoSuchItemException {
-    return PriceList.getInstance().getItemPrice(this);
+  default int getPrice() {
+    return PriceList.getInstance().getItemPrice(this.getName());
   }
 }

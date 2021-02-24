@@ -1,18 +1,24 @@
-package com.worldnavigator.game.player;
+package com.worldnavigator.game.maze.items;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.worldnavigator.game.Gold;
 import com.worldnavigator.game.PriceList;
-import com.worldnavigator.game.maze.items.Item;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class Inventory {
 
+  @JsonIgnore
   private final PriceList priceList = PriceList.getInstance();
-  private Gold gold;
+  @JsonProperty("items")
   private final Map<String, Item> items;
+  @JsonProperty("gold")
+  private Gold gold;
 
+  @JsonCreator
   public Inventory() {
     this.gold = new Gold(0);
     this.items = new HashMap<>();
@@ -29,7 +35,7 @@ public class Inventory {
   public void addItems(Map<String, Item> items){
     for(Item item : items.values()){
       if(containsItem(item.getName())){
-        gold.addGoldAmount(priceList.getItemPrice(item));
+        gold.addGoldAmount(priceList.getItemPrice(item.getName()));
       }else this.items.putIfAbsent(item.getName(),item);
     }
   }
@@ -50,7 +56,7 @@ public class Inventory {
   public void addItem(Item item) {
     Objects.requireNonNull(item);
     if(containsItem(item.getName())){
-      gold.addGoldAmount(priceList.getItemPrice(item));
+      gold.addGoldAmount(priceList.getItemPrice(item.getName()));
     }else this.items.putIfAbsent(item.getName(),item);
   }
 
@@ -65,7 +71,7 @@ public class Inventory {
   public int convertToGoldAmount() {
     int total = gold.getAmount();
     for(Item item : items.values()){
-      total += priceList.getItemPrice(item);
+      total += priceList.getItemPrice(item.getName());
     }
     return total;
   }

@@ -24,7 +24,7 @@ public class Game {
   private Map<String,Player> players;
   private String winner;
   private LocalTime startingTime;
-  private GameState gameState;
+  private GameStatus gameStatus;
   private Map<Player, RockPaperScissorsFight> fightMap;
 
   public Game(int id, Maze maze, GameConfig gameConfig) {
@@ -32,7 +32,7 @@ public class Game {
     this.name = "Game" + id;
     this.maze = maze;
     this.gameConfig = gameConfig;
-    this.gameState = GameState.LOADING;
+    this.gameStatus = GameStatus.LOADING;
     this.fightMap = new HashMap<>();
     this.players = new HashMap<>();
     this.startingTime = LocalTime.now();
@@ -42,7 +42,7 @@ public class Game {
     this.players.putAll(players);
     equipPlayers();
     this.startingTime = LocalTime.now(ZoneId.systemDefault());
-    this.gameState = GameState.STARTED;
+    this.gameStatus = GameStatus.STARTED;
   }
 
   public void equipPlayers() {
@@ -66,6 +66,7 @@ public class Game {
     winner.setPlayerStatus(PlayerStatus.WON);
 
     this.winner = winner.getUserName();
+    gameStatus = GameStatus.FINISHED;
   }
 
   public Player getPlayer(String username) {
@@ -73,7 +74,7 @@ public class Game {
     return Objects.requireNonNull(player);
   }
 
-  public void removePlayer(Player player){
+  public void removePlayer(Player player) {
     Objects.requireNonNull(player);
     players.remove(player);
   }
@@ -81,5 +82,9 @@ public class Game {
   public void addFight(RockPaperScissorsFight fight) {
     Objects.requireNonNull(fight);
     fight.getPlayers().forEach(player -> fightMap.put(player, fight));
+  }
+
+  public RockPaperScissorsFight getFightByPlayer(Player player) {
+    return fightMap.get(player);
   }
 }
