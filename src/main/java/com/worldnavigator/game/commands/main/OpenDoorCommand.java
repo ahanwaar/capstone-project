@@ -11,7 +11,7 @@ public class OpenDoorCommand implements Command {
 
   @Override
   public String execute(Player player, String... args) {
-    Door door = (Door) player.getCurrentRoom().getWall(player.getLocation().getDirection());
+    Door door = (Door) player.getCurrentRoom().getWall(player.getDirection());
 
     if (door.getLock().isLocked()) {
       return String.format(

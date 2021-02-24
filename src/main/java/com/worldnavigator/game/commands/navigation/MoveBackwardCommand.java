@@ -13,8 +13,8 @@ public class MoveBackwardCommand implements Command {
 
   @Override
   public String execute(Player player, String... args) {
-    Direction oppositeDir = player.getLocation().getDirection().getOppositeDir();
-    player.getLocation().setDirection(oppositeDir);
+    Direction oppositeDir = player.getDirection().getOppositeDir();
+    player.setDirection(oppositeDir);
     MoveForwardCommand forwardCommand = new MoveForwardCommand();
     return forwardCommand.execute(player);
   }
@@ -32,7 +32,7 @@ public class MoveBackwardCommand implements Command {
   @Override
   public boolean checkAvailability(Player player) {
     Room room = player.getCurrentRoom();
-    Wall oppositeWall = room.getWall(player.getLocation().getDirection().getOppositeDir());
+    Wall oppositeWall = room.getWall(player.getDirection().getOppositeDir());
     return oppositeWall instanceof Door;
   }
 }

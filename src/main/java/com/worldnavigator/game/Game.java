@@ -3,59 +3,46 @@ package com.worldnavigator.game;
 import static java.util.stream.Collectors.toList;
 
 import com.worldnavigator.game.conflict.RockPaperScissorsFight;
-import com.worldnavigator.game.maze.Maze;
 import com.worldnavigator.game.player.Player;
 import com.worldnavigator.game.player.PlayerStatus;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 import lombok.Getter;
 
 @Getter
 public class Game {
 
-  private final int id;
+  private final UUID uuid;
   private final String name;
-  private final Maze maze;
+  private final String owner;
   private final GameConfig gameConfig;
-  private Map<String,Player> players;
+  private final LocalDateTime startedAt;
+  private Map<String, Player> players;
   private String winner;
-  private LocalTime startingTime;
-  private GameStatus gameStatus;
   private Map<Player, RockPaperScissorsFight> fightMap;
 
-  public Game(int id, Maze maze, GameConfig gameConfig) {
-    this.id = id;
-    this.name = "Game" + id;
-    this.maze = maze;
+  public Game(
+      UUID uuid, String name, String owner, GameConfig gameConfig, LocalDateTime startedAt) {
+    this.name = name;
+    this.owner = owner;
+    this.uuid = UUID.fromString(getName());
     this.gameConfig = gameConfig;
-    this.gameStatus = GameStatus.LOADING;
     this.fightMap = new HashMap<>();
     this.players = new HashMap<>();
-    this.startingTime = LocalTime.now();
+    this.startedAt = startedAt;
   }
 
-  public void start(Map<String,Player> players) {
-    this.players.putAll(players);
-    equipPlayers();
-    this.startingTime = LocalTime.now(ZoneId.systemDefault());
-    this.gameStatus = GameStatus.STARTED;
-  }
+  public void distributeGold(int amount) {
+    List<Player> currentPlayers =
+        this.players.values().stream()
+            .filter(p -> p.getPlayerStatus() != PlayerStatus.LOST)
+            .collect(toList());
 
-  public void equipPlayers() {
-    distributeGold(gameConfig.getInitialGoldAmount());
-  }
-
-  public void distributeGold(int amount){
-    List<Player> currentPlayers = this.players.values().stream()
-        .filter(p -> p.getPlayerStatus() != PlayerStatus.LOST)
-        .collect(toList());
-
-    if(currentPlayers.isEmpty())
-      return;
+    if (currentPlayers.isEmpty()) return;
 
     int goldForEach = amount / currentPlayers.size();
     currentPlayers.forEach(p -> p.getInventory().getGold().addGoldAmount(goldForEach));
@@ -66,7 +53,6 @@ public class Game {
     winner.setPlayerStatus(PlayerStatus.WON);
 
     this.winner = winner.getUserName();
-    gameStatus = GameStatus.FINISHED;
   }
 
   public Player getPlayer(String username) {
@@ -86,5 +72,17 @@ public class Game {
 
   public RockPaperScissorsFight getFightByPlayer(Player player) {
     return fightMap.get(player);
+  }
+
+  public boolean isStarted() {
+    return LocalDateTime.now().isAfter(startedAt);
+  }
+
+  public boolean isFinished() {
+    return winner != null || isTimeout();
+  }
+
+  public boolean isTimeout() {
+    return startedAt.plusMinutes(gameConfig.getTimeOut()).isBefore(LocalDateTime.now());
   }
 }

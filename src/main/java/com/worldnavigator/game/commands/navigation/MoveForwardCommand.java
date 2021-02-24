@@ -8,7 +8,6 @@ import com.worldnavigator.game.maze.Room;
 import com.worldnavigator.game.maze.wall.Wall;
 import com.worldnavigator.game.maze.wall.wallobjects.Door;
 import com.worldnavigator.game.player.Player;
-import com.worldnavigator.game.player.PlayerLocation;
 import com.worldnavigator.game.player.PlayerStatus;
 import org.springframework.stereotype.Component;
 
@@ -55,8 +54,8 @@ public class MoveForwardCommand implements Command {
 
   public String enterUnCrowdedRoom(Player player, Room nextRoom) {
     nextRoom.addPlayer(player);
-    player.setLocation(
-        new PlayerLocation(nextRoom.getIndex(), player.getLocation().getDirection()));
+    player.setDirection(player.getDirection());
+    player.setRoomIndex(nextRoom.getIndex());
     if (nextRoom.isEmpty()) {
       return "You are in the next room.";
     }

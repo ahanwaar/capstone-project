@@ -12,11 +12,7 @@ public class TurnRightCommand implements Command {
   @Override
   public String execute(Player player, String... args) {
     Objects.requireNonNull(player);
-    player.getLocation().setDirection(
-        player
-            .getLocation()
-            .getDirection()
-            .turnLeft());
+    player.setDirection(player.getDirection().turnRight());
     return "You turned right!";
   }
 

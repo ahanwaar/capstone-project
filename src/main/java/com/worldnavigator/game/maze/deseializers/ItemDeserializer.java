@@ -9,7 +9,6 @@ import com.worldnavigator.game.maze.items.Item;
 import com.worldnavigator.game.maze.items.ItemFactory;
 import java.io.IOException;
 
-// TODO DELETE IT
 public class ItemDeserializer extends JsonDeserializer<Item> {
 
   @Override

@@ -1,6 +1,6 @@
 package com.worldnavigator.game;
 
-import java.util.Map;
+import com.worldnavigator.game.maze.Maze;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +12,7 @@ public class GameConfig {
 
   private int initialGoldAmount;
   private int timeOut;
-  private PriceList priceList;
+  private final Maze maze;
+
 
 }
